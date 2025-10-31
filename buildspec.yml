@@ -1,0 +1,24 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 992301283756.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t lab2-frontend .
+      - docker tag lab2-frontend:latest 992301283756.dkr.ecr.us-east-1.amazonaws.com/lab2-frontend:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image to ECR...
+      - docker push 992301283756.dkr.ecr.us-east-1.amazonaws.com/lab2-frontend:latest
+      - echo Creating imagedefinitions.json
+      - printf '[{"name":"lab2-frontend-container","imageUri":"%s"}]' 992301283756.dkr.ecr.us-east-1.amazonaws.com/lab2-frontend:latest > imagedefinitions.json
+
+artifacts:
+  files:
+    - imagedefinitions.json
