@@ -1,4 +1,4 @@
-﻿FROM php:8.0-apache
+﻿FROM public.ecr.aws/docker/library/php:8.0-apache
 
 # Instalar dependencias del sistema y Composer
 RUN apt-get update && apt-get install -y git unzip
