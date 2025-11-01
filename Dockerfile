@@ -25,11 +25,14 @@ RUN a2enmod rewrite
 COPY config/db-connection.php /var/www/html/config/db-connection.php
 COPY config-dev/vhost.conf /var/www/html/config/vhost.conf
 
-# Crear directorio de logs
-RUN mkdir -p /var/www/html/logs && chmod 777 /var/www/html/logs
+# Crear directorio de logs con permisos de escritura
+RUN mkdir -p /var/www/html/logs && \
+    chmod 777 /var/www/html/logs && \
+    chown www-data:www-data /var/www/html/logs
 
-# Permisos
+# Permisos generales (DESPUÉS de crear logs)
 RUN chown -R www-data:www-data /var/www/html
 RUN chmod -R 755 /var/www/html
+RUN chmod 777 /var/www/html/logs
 
 EXPOSE 80
