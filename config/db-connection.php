@@ -1,12 +1,17 @@
 <?php
 // Leer variables de entorno
-$host = $_ENV['DATABASE_HOST'] ?? getenv('DATABASE_HOST') ?: 'localhost';
-$dbname = $_ENV['DATABASE_NAME'] ?? getenv('DATABASE_NAME') ?: 'app_db';
-$user = $_ENV['DATABASE_USER'] ?? getenv('DATABASE_USER') ?: 'root';
-$password = $_ENV['DATABASE_PASSWORD'] ?? getenv('DATABASE_PASSWORD') ?: 'password';
+$host = $_ENV['DATABASE_HOST'] ?? getenv('DATABASE_HOST') ?: 'FALLBACK_LOCALHOST';
+$dbname = $_ENV['DATABASE_NAME'] ?? getenv('DATABASE_NAME') ?: 'FALLBACK_DB';
+$user = $_ENV['DATABASE_USER'] ?? getenv('DATABASE_USER') ?: 'FALLBACK_USER';
+$password = $_ENV['DATABASE_PASSWORD'] ?? getenv('DATABASE_PASSWORD') ?: 'FALLBACK_PASS';
 
-// Debug (TEMPORAL - eliminar después)
-error_log("DB Connection attempt: host=$host, dbname=$dbname, user=$user, pass_length=" . strlen($password));
+// Escribir a stderr para asegurar que aparezca en CloudWatch
+error_log("===== DB CONNECTION DEBUG START =====");
+error_log("DATABASE_HOST from env: " . ($host ?? 'NULL'));
+error_log("DATABASE_NAME from env: " . ($dbname ?? 'NULL'));
+error_log("DATABASE_USER from env: " . ($user ?? 'NULL'));
+error_log("PASSWORD length: " . strlen($password));
+error_log("===== DB CONNECTION DEBUG END =====");
 
 try {
     $pdo = new PDO(
@@ -20,11 +25,14 @@ try {
             PDO::ATTR_EMULATE_PREPARES => false
         ]
     );
-    error_log("DB Connection successful");
+    error_log("===== DB CONNECTION SUCCESSFUL =====");
     return $pdo;
 } catch (PDOException $e) {
-    error_log("Database connection failed: " . $e->getMessage());
-    error_log("Connection details: host=$host, dbname=$dbname, user=$user");
+    error_log("===== DB CONNECTION FAILED =====");
+    error_log("Error: " . $e->getMessage());
+    error_log("Host tried: $host");
+    error_log("Database: $dbname");
+    error_log("User: $user");
     http_response_code(500);
     die("Database connection failed: " . $e->getMessage());
 }
