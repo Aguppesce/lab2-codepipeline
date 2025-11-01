@@ -21,8 +21,9 @@ COPY apache/default-site.conf /etc/apache2/sites-available/000-default.conf
 RUN sed -i 's/ServerName example-app.com/ServerName localhost/' /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
 
-# Copiar archivo de configuración de DB (sobrescribe el que viene en COPY . si existe)
+# Copiar archivos de configuración
 COPY config/db-connection.php /var/www/html/config/db-connection.php
+COPY config-dev/vhost.conf /var/www/html/config/vhost.conf
 
 # Permisos
 RUN chown -R www-data:www-data /var/www/html
