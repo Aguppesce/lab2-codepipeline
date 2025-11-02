@@ -17,7 +17,7 @@ class Listing
         <div class="col-sm-8 col-sm-offset-2">
             <div class="panel panel-info">
                 <div class="panel-body">
-                    <h1>The newcomers: v1</h1>
+                    <h1>The newcomers: v3</h1>
                     <?php
                     /** @var \Entity\User $user */
                     foreach ($this->users as $user) {
