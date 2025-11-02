@@ -1,4 +1,9 @@
 <?php
+
+require_once __DIR__ . '/../autoloader.php';
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+}
 // Configurar para mostrar errores en pantalla (TEMPORAL para debug)
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
