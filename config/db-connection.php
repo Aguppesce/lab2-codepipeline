@@ -1,11 +1,8 @@
 <?php
-// TEMPORAL - Hardcoded para debugging
 $host = 'lab2-tf-database-service.database-name-space';
 $dbname = 'app_db';
 $user = 'root';
 $password = 'password';
-
-error_log("DB Connection attempt: host=$host, dbname=$dbname, user=$user");
 
 try {
     $pdo = new PDO(
@@ -19,10 +16,9 @@ try {
             PDO::ATTR_EMULATE_PREPARES => false
         ]
     );
-    error_log("DB Connection successful");
     return $pdo;
 } catch (PDOException $e) {
     error_log("Database connection failed: " . $e->getMessage());
     http_response_code(500);
-    die("Database connection failed: " . $e->getMessage());
+    die("Database connection failed");
 }
