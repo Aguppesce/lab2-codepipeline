@@ -17,7 +17,12 @@ class Listing
         <div class="col-sm-8 col-sm-offset-2">
             <div class="panel panel-info">
                 <div class="panel-body">
-                    <h1>The newcomers: v1</h1>
+                    <h1 style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+           -webkit-background-clip: text; 
+           -webkit-text-fill-color: transparent;
+           background-clip: text;">
+                        🚀 The Newcomers - Lab2 Final
+                    </h1>
                     <?php
                     /** @var \Entity\User $user */
                     foreach ($this->users as $user) {
@@ -28,7 +33,8 @@ class Listing
                                 <img alt="@<?= $userId ?> avatar" class="img-rounded" src="/img/<?= $userId ?>">
                             </a>
                             <div class="media-body">
-                                <p><a href="/<?= $userId ?>"><strong class="fullname"><?= $user->name ?></strong></a> <a href="/<?= $userId ?>">@<?= $userId ?></a></p>
+                                <p><a href="/<?= $userId ?>"><strong class="fullname"><?= $user->name ?></strong></a> <a
+                                        href="/<?= $userId ?>">@<?= $userId ?></a></p>
                                 <small>joined <span class="time"><?= $user->joined ?></span></small>
                             </div>
                         </div>
