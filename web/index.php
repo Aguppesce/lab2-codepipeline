@@ -1,4 +1,9 @@
 ﻿<?php
+error_log("========================================");
+error_log("INDEX.PHP LOADED");
+error_log("Time: " . date('Y-m-d H:i:s'));
+error_log("========================================");
+
 // CARGAR AUTOLOADER PRIMERO - Esto resuelve el error de clases
 require_once __DIR__ . '/../autoloader.php';
 
