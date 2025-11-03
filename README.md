@@ -25,18 +25,18 @@ Aplicación web estilo Twitter desplegada en AWS ECS con pipeline CI/CD automati
        │
        ▼
 ┌──────────────────────────────────────┐
-│          ECS Cluster (lab2-ecs)      │
+│          ECS Cluster (lab2-ecs)       │
 │  ┌────────────────┐  ┌──────────────┐│
 │  │   Frontend     │  │   Database   ││
 │  │   (2 tasks)    │  │   (1 task)   ││
 │  │ lab2-frontend- │  │   MySQL 8.0  ││
 │  │   container    │  │   + EFS      ││
-│  └────────┬───────┘  └──────┬──────┬┘│
-│           │                 │      │ │
-│           └──Service Discovery─────┘ │
-│      lab2-tf-database-service.       │
-│         database-name-space          │
-└──────────────────────────────────────┘
+│  └────────┬───────┘  └──────┬───────┘│
+│           │                  │        │
+│           └──Service Discovery───────┘│
+│      lab2-tf-database-service.        │
+│         database-name-space           │
+└───────────────────────────────────────┘
            │
            ▼
     ┌──────────────┐
@@ -91,7 +91,7 @@ El frontend utiliza las siguientes variables (definidas en Parameter Store):
 ### Compute:
 - ECS Cluster: `lab2-ecs`
 - Auto Scaling Group: 4 instancias EC2 t2.micro
-- Task Definitions: `lab2-frontend-tf:X`, `lab2-tf-database:X`
+- Task Definitions: `lab2-frontend-final:1`, `lab2-tf-database:X`
 
 ### Networking:
 - VPC: `lab2-vpc`
@@ -217,3 +217,132 @@ Application Load Balancer (lab2-alb)
    Parameter Store      CloudWatch Logs
 
 GitHub → CodePipeline → CodeBuild → ECR → ECS
+
+
+# Decisiones Técnicas - Lab 2
+
+## 1. EC2 vs Fargate
+
+**Decisión**: EC2 launch type
+
+**Razones**:
+- ✅ Menor costo para cargas pequeñas
+- ✅ Mayor control sobre las instancias
+- ✅ Aprendizaje de gestión de infraestructura
+- ❌ Requiere gestión de Auto Scaling Group
+- ❌ Mayor complejidad operativa
+
+**Alternativa considerada**: Fargate (serverless)
+- Mayor costo
+- Menor control
+- Más simple de operar
+
+---
+
+## 2. MySQL containerizado vs RDS
+
+**Decisión**: MySQL containerizado con EFS
+
+**Razones**:
+- ✅ Parte del ejercicio de containerización
+- ✅ Control total sobre configuración
+- ✅ Menor costo
+- ❌ Requiere gestión de persistencia (EFS)
+- ❌ Sin alta disponibilidad automática
+
+**Alternativa considerada**: Amazon RDS
+- Mayor costo
+- Alta disponibilidad built-in
+- Backups automáticos
+- Menor control
+
+---
+
+## 3. Service Discovery vs hardcoded endpoints
+
+**Decisión**: AWS Cloud Map (Service Discovery)
+
+**Razones**:
+- ✅ Desacoplamiento de servicios
+- ✅ DNS privado automático
+- ✅ Escalabilidad futura
+- ✅ No requiere cambiar código al escalar
+
+**Alternativa considerada**: IPs/DNS hardcoded
+- Más simple inicialmente
+- Frágil ante cambios
+- No escalable
+
+---
+
+## 4. Parameter Store vs Variables en Task Definition
+
+**Decisión**: AWS Systems Manager Parameter Store
+
+**Razones**:
+- ✅ Encriptación de secretos
+- ✅ Gestión centralizada
+- ✅ Rotación de credenciales sin rebuild
+- ✅ Auditoría con CloudTrail
+
+**Alternativa considerada**: Environment variables directas
+- Menos seguro
+- Credenciales en texto plano
+- Más difícil rotar
+
+---
+
+## 5. Monorepo vs Multi-repo
+
+**Decisión**: Monorepo (todo en un repositorio)
+
+**Razones**:
+- ✅ Simplicidad para proyecto pequeño
+- ✅ Un solo pipeline
+- ✅ Cambios atómicos
+
+**Alternativa considerada**: Repos separados frontend/infra
+- Mayor complejidad
+- Múltiples pipelines
+- Mejor para equipos grandes
+
+# Checklist de validación - Lab 2
+
+## ✅ Funcionalidad
+
+- [ ] La aplicación carga en HTTPS
+- [ ] Se muestran los 4 usuarios
+- [ ] Al hacer click en un usuario se ven sus tweets
+- [ ] La navegación entre usuarios funciona
+- [ ] No hay errores 500
+
+## ✅ Alta disponibilidad
+
+- [ ] Hay 2 tasks del frontend corriendo
+- [ ] Target Group muestra 2 targets healthy
+- [ ] Si se detiene 1 task, el ALB enruta al otro
+
+## ✅ CI/CD
+
+- [ ] Un push a `main` dispara el pipeline
+- [ ] El pipeline completa exitosamente (verde)
+- [ ] La nueva versión se despliega automáticamente
+- [ ] El tiempo de deployment es ~10 minutos
+
+## ✅ Persistencia
+
+- [ ] Los datos de MySQL persisten entre reinicios
+- [ ] EFS está montado correctamente
+
+## ✅ Seguridad
+
+- [ ] Credenciales en Parameter Store (encriptadas)
+- [ ] Security Groups permiten solo tráfico necesario
+- [ ] Base de datos en subnet privada
+- [ ] HTTPS configurado correctamente
+
+## ✅ Observabilidad
+
+- [ ] Logs visibles en CloudWatch
+- [ ] Métricas de ECS disponibles
+- [ ] Historial de deployments en CodePipeline
