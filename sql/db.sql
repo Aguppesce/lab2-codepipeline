@@ -43,7 +43,9 @@ INSERT INTO `user` (`id`, `joined`, `name`) VALUES
   ('Princess_Leia', '2016-12-01 12:00:00', 'Princess Leia'),
   ('Luke', '2016-01-01 12:00:00', 'Luke Skywalker'),
   ('Obi-Wan', '2015-01-03 12:00:00', 'Obi-Wan "Ben" Kenobi'),
-  ('Darth_Vader', '2015-01-13 13:13:13', 'Anakin Skywalker')
+  ('Darth_Vader', '2015-01-13 13:13:13', 'Anakin Skywalker'),
+  ('Darth_Sidious', '2014-06-06 06:06:06', 'Emperor Palpatine'),
+  ('Mace_Windu', '2015-03-15 10:30:00', 'Mace Windu')
 ;
 
 INSERT INTO `tweet` (`user_id`, `ts`, `message`) VALUES
@@ -54,5 +56,13 @@ INSERT INTO `tweet` (`user_id`, `ts`, `message`) VALUES
   ('Obi-Wan', '2016-05-09 11:30:00', 'Blast. This is why I hate flying.'),
   ('Darth_Vader', '2017-01-13 16:00:00', '@Luke, I am your father'),
   ('Darth_Vader', '2016-05-10 19:00:00', 'I\'ve been waiting for you, @Obi-Wan. We meet again, at last.'),
-  ('Darth_Vader', '2016-06-06 23:00:00', 'Your powers are weak, old man.')
+  ('Darth_Vader', '2016-06-06 23:00:00', 'Your powers are weak, old man.'),
+  ('Darth_Sidious', '2015-05-19 18:00:00', 'Good, good. Let the hate flow through you.'),
+  ('Darth_Sidious', '2016-07-04 13:00:00', 'Everything is proceeding as I have foreseen.'),
+  ('Darth_Sidious', '2017-02-01 20:00:00', '@Darth_Vader: You have done well, my apprentice.'),
+  ('Darth_Sidious', '2015-09-09 09:09:09', 'The dark side of the Force is a pathway to many abilities some consider to be unnatural.'),
+  ('Mace_Windu', '2015-04-20 11:00:00', 'This party\'s over.'),
+  ('Mace_Windu', '2016-02-14 14:00:00', 'The oppression of the Sith will never return. You have lost.'),
+  ('Mace_Windu', '2016-08-08 16:30:00', '@Obi-Wan: May the Force be with us all.'),
+  ('Mace_Windu', '2015-12-25 12:00:00', 'In the name of the Galactic Senate of the Republic, you are under arrest.')
 ;
