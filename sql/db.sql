@@ -45,7 +45,7 @@ INSERT INTO `user` (`id`, `joined`, `name`) VALUES
   ('Obi-Wan', '2015-01-03 12:00:00', 'Obi-Wan "Ben" Kenobi'),
   ('Darth_Vader', '2015-01-13 13:13:13', 'Anakin Skywalker'),
   ('Darth_Sidious', '2014-06-06 06:06:06', 'Emperor Palpatine'),
-  ('Mace_Windu', '2015-03-15 10:30:00', 'Mace Windu')
+  ('Mace_Windu', '2024-12-19 10:30:00', 'Mace Windu')
 ;
 
 INSERT INTO `tweet` (`user_id`, `ts`, `message`) VALUES
@@ -64,5 +64,6 @@ INSERT INTO `tweet` (`user_id`, `ts`, `message`) VALUES
   ('Mace_Windu', '2015-04-20 11:00:00', 'This party\'s over.'),
   ('Mace_Windu', '2016-02-14 14:00:00', 'The oppression of the Sith will never return. You have lost.'),
   ('Mace_Windu', '2016-08-08 16:30:00', '@Obi-Wan: May the Force be with us all.'),
-  ('Mace_Windu', '2015-12-25 12:00:00', 'In the name of the Galactic Senate of the Republic, you are under arrest.')
+  ('Mace_Windu', '2015-12-25 12:00:00', 'In the name of the Galactic Senate of the Republic, you are under arrest.'),
+  ('Mace_Windu', '2024-12-19 15:00:00', 'I defeated Darth Sidious and brought balance to the Force!')
 ;
